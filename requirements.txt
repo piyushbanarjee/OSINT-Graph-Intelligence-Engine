@@ -5,3 +5,6 @@ pyvis
 xgboost
 rapidfuzz
 sqlalchemy
+pymupdf
+pathlib
+ollama
