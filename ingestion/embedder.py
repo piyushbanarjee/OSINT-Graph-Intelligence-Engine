@@ -17,7 +17,7 @@ def embed_document(document_id, chunks,target_collection= collection):
     for idx, chunk in enumerate(chunks):
         clean_chunk = chunk.replace('\n', " ").strip()
         chunk_id = f"{document_id}_{idx}"
-        chunk_metadata = {"source_file": document_id, "chunk_index": idx}
+        chunk_metadata = {"document_id": document_id, "chunk_index": idx}
 
         batch_documents.append(clean_chunk)
         batch_ids.append(chunk_id)
@@ -29,11 +29,20 @@ def embed_document(document_id, chunks,target_collection= collection):
 
 
 if __name__ == '__main__':
-    # Simulating a verification test-drive
-    sample_document_name = "charon_dossier.txt"
+    sample_document_id = "test"
     sample_chunks = [
-        "Chunk block number 1 detail about the Continental concierge.",
-        "Chunk block number 2 detailing tactical shotgun operations during the hotel defense.",
-        "Chunk block number 3 tracking retribution targets across high table zones."
+    "Operation Black Ice update: The server room decryption codes are cycled every 24 hours at midnight PST.",
+    "Physical breach protocols require biometric override keys from two Tier-1 executives simultaneously.",
+    "A secondary secure data asset is hidden inside an offline cooling system node in the sub-basement repository.",
+    "Standard cleaning staff have zero security clearance for Sector 7 areas; any unescorted personnel must be detained immediately."
     ]
-    embed_document(collection, sample_document_name, sample_chunks)
+    
+    # Corrected argument passing order
+    embed_document(document_id=sample_document_id, chunks=sample_chunks)
+    result = collection.get(
+        where = {"document_id": "test"}
+        )
+    print(result["documents"])
+    # result = collection.query(query_texts="how do i breach the biometric", n_results=1)
+    # print(result['documents'][0])
+    collection.delete(where={"document_id": "test"})
