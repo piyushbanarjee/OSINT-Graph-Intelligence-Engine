@@ -3,6 +3,8 @@ import sqlite3
 db = sqlite3.connect('data/intelligence.db')
 cursor = db.cursor()
 
+cursor.execute('pragma foreign_keys = ON;')
+
 cursor.execute('''create table if not exists documents(
             document_id integer primary key autoincrement,
             filename text,
@@ -10,7 +12,6 @@ cursor.execute('''create table if not exists documents(
             created_at timestamp default current_timestamp);''')
 db.commit()
 
-cursor.execute('pragma foreign_keys = ON;')
 
 cursor.execute('''create table if not exists entities(
                 entity_id integer primary key autoincrement,
@@ -18,8 +19,9 @@ cursor.execute('''create table if not exists entities(
                 name text,
                 role text,
                 created_at timestamp default current_timestamp,
-                foreign key (document_id) references documents(document_id) on delete cascade);
-                UNIQUE(document_id, name)''')
+                foreign key (document_id) references documents(document_id) on delete cascade,
+                UNIQUE(document_id, name)
+               );''')
 db.commit()
 
 cursor.execute('''create table if not exists relationships(
@@ -41,7 +43,7 @@ def save_document(filename, raw_text):
 
 def save_entites(document_id, name, role):
     cursor.execute(""" 
-    insert into entities (document_id, name, role)
+    insert or ignore into entities (document_id, name, role)
     values (?,?,?)""", (document_id, name, role))
     db.commit()
 
@@ -53,6 +55,17 @@ def save_relationships(document_id, origin, destination, label):
     values (?,?,?,?)""", (document_id, origin, destination, label))
     db.commit()
 
+def entities_doc_id(name)-> list:
+    cursor.execute("select document_id from entities where name = ?", (name,))
+    rows = cursor.fetchall()
+    docs = [row[0] for row in rows]
+    return docs
 
+def get_all_entity_names():
+    cursor.execute("select distinct name from entities ")
+    rows = cursor.fetchall()
+    names = [row[0] for row in rows]
+    return names
+    
 if __name__ == "__main__":
     pass

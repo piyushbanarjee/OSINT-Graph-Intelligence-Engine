@@ -1,6 +1,5 @@
 import ollama
 from pydantic import BaseModel, Field
-import chromadb
 from ingestion.embedder import collection
 from ingestion.store import save_entites, save_relationships
 
@@ -76,5 +75,5 @@ if __name__ == "__main__":
                      Before that, she spent 3 years grinding as a Senior Analyst at DataGlobe Inc. Skill-wise,
                      she’s a powerhouse; she practically lives in SQL and Python, and lately, 
                     she’s been doing a ton of cloud orchestration with AWS. Write a quick snippet summarizing her profile. """
-                    # , ReturnAsPythonClass=False
+                    , ReturnAsPythonClass=False
                     ))
