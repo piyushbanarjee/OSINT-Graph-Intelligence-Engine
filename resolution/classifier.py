@@ -16,12 +16,12 @@ def train_classifier():
     model = XGBClassifier()
     model.fit(x,y)
 
-    with open ('XGB_entity_model.pkl', 'wb') as file:
+    with open ('resolution/XGB_entity_model.pkl', 'wb') as file:
         pickle.dump(model, file)
 
 
 def resolve_entity(new_name):
-    with open ('XGB_entity_model.pkl', 'rb') as file:
+    with open ('resolution/XGB_entity_model.pkl', 'rb') as file:
         model = pickle.load(file)
 
     names = get_all_entity_names()
