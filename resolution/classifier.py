@@ -2,7 +2,7 @@ from xgboost import XGBClassifier
 import pickle
 from resolution.scorer import build_feature_vector
 from resolution.training_data import training_pairs
-from ingestion.store import get_all_entity_names
+from ingestion.store import get_all_entity_data
 
 
 def train_classifier():
@@ -24,10 +24,11 @@ def resolve_entity(new_name):
     with open ('resolution/XGB_entity_model.pkl', 'rb') as file:
         model = pickle.load(file)
 
-    names = get_all_entity_names()
+    names = get_all_entity_data()[0]
     same_person_probability = {}
 
     for name in names:
+        # 
         x = model.predict_proba([build_feature_vector(name, new_name)])
         is_same_person = x[0][1]
         same_person_probability.update({name: is_same_person})

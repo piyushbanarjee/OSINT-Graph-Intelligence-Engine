@@ -1,7 +1,10 @@
-import ollama
+def x():
+    return 13, 233
 
+r1= x()
 
-text = "Hi my name is Piyush"
-x =ollama.embed(model= 'nomic-embed-text',input=text)
+r2, r3 = x()
 
-print(type(x))
+r4 = x()[0]
+r5 = x()[1]
+print(r1, r2, r3, r4, r5)

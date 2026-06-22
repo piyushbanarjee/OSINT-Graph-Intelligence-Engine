@@ -61,11 +61,20 @@ def entities_doc_id(name)-> list:
     docs = [row[0] for row in rows]
     return docs
 
-def get_all_entity_names():
-    cursor.execute("select distinct name from entities ")
+def get_all_entity_data():
+    cursor.execute("select distinct name, role from entities ")
     rows = cursor.fetchall()
     names = [row[0] for row in rows]
-    return names
+    roles = [row[1] for row in rows]
+    return names, roles
+
+def get_all_relationship_data():
+    cursor.execute("select distinct origin, destination, label from relationships ")
+    rows = cursor.fetchall()
+    origin = [row[0] for row in rows]
+    destination = [row[1] for row in rows]
+    label = [row[2] for row in rows]
+    return origin, destination, label
     
 if __name__ == "__main__":
     pass
