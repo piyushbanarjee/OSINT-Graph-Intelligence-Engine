@@ -1,11 +1,15 @@
 # Python
 __pycache__/
+
+
 *.py[cod]
 *$py.class
 *.so
 .Python
 venv/
+**/__pycache__/
 .venv/
+**/*.py[cod]
 env/
 ENV/
 *.egg-info/
