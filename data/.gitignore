@@ -1,0 +1,5 @@
+# ignore all db files
+*
+
+# Not ignore gitignore
+!.gitignore
